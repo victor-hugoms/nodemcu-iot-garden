@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!-- 
+  Based on the original code from Rui Santos
+  Complete project details at https://RandomNerdTutorials.com  
+-->
+<html>
+<head>
+  <title>ESP8266 Web Server</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <h1>ESP8266 Web Server</h1>
+  <div id="measurements-list">
+    <p>
+      <span class="sensor-labels">Temperature</span>
+      <span id="temperature">%TEMPERATURE%</span>
+      <sup class="units">&deg;C</sup>
+    </p>
+    <p>
+      <span class="sensor-labels">Humidity</span>
+      <span id="humidity">%HUMIDITY%</span>
+      <sup class="units">&#37;</sup>
+    </p>
+    <p>
+      <span class="sensor-labels">Pressure</span>
+      <span id="pressure">%PRESSURE%</span>
+      <sup class="units">hPa</sup>
+    </p>
+    <p>
+      <span class="sensor-labels">Luminosity</span>
+      <span id="luminosity">%LUMINOSITY%</span>
+      <sup class="units">abs</sup>
+    </p>
+    <p>
+      <span class="sensor-labels">Soil humidity rhizomes</span>
+      <span id="soilHumidity1">%SOILHUM1%</span>
+      <sup class="units">% wt</sup>
+    </p>
+    <p>
+      <span class="sensor-labels">Soil humidity tomatoes</span>
+      <span id="soilHumidity2">%SOILHUM2%</span>
+      <sup class="units">% wt</sup>
+    </p>
+  </div>
+</body>
+<script>
+
+  //Update all measurements in a row
+  setInterval(function () {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      // If response is successful
+      if (this.readyState == 4 && this.status == 200) {
+        // Parse response
+        var measurements = JSON.parse(this.responseText);
+        // For each element, change the corresponding block
+        for (const element of measurements) {
+          var object = document.getElementById(element.measure);
+          if(object) object.innerHTML = element.value;
+        }
+      }
+    };
+    xhttp.open("GET", "/updateValues", true);
+    xhttp.send();
+  }, 10000 ) ;
+
+  /* setInterval(function ( ) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("temperature").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "/temperature", true);
+    xhttp.send();
+  }, 10000 ) ;
+
+  setInterval(function ( ) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("humidity").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "/humidity", true);
+    xhttp.send();
+  }, 10000 ) ;
+
+  setInterval(function ( ) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("pressure").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "/pressure", true);
+    xhttp.send();
+  }, 10000 ) ;
+
+  setInterval(function ( ) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("luminosity").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "/luminosity", true);
+    xhttp.send();
+  }, 10000 ) ; */
+</script>
+</html>
